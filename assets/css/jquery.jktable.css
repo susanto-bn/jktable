@@ -1,0 +1,118 @@
+.jkt-insertButton {
+	padding: .4em 1em .4em 2.1em;
+	color: #555;
+	border: 1px solid #d3d3d3;
+	background: #e6e6e6 url(../img/insertButton-bg.png) 50% 50% repeat-x;
+	cursor: pointer;
+	vertical-align: middle;
+	text-align: center;
+	overflow: visible;
+	font-family: Verdana,Arial,sans-serif;
+	font-size: 1.1em;
+	width: 100%;
+	
+	border-top-left-radius: 4px;
+	border-top-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+.jkt-insertButton:hover {
+	color: #000;
+	border: 1px solid #0000ff;
+}
+.jkt-Button {
+	border: none;
+	background: transparent;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	margin: 0px 5px;
+	cursor: pointer;
+}
+.jkt-editButton {
+	background-image: url(../img/editButton.png);
+}
+.jkt-deleteButton {
+	background-image: url(../img/deleteButton.png);
+}
+.jkt-editButton {
+	background-image: url(../img/editButton.png);
+}
+.jkt-deleteButton {
+	background-image: url(../img/deleteButton.png);
+}
+.jkt-searchButton {
+	background-image: url(../img/searchButton.png);
+}
+
+.jkt-sortButton {
+	border: none;
+	background: transparent;
+	background-repeat: no-repeat;
+	width: 9px;
+	height: 13px;
+	cursor: pointer;
+}
+.jkt-ascButton {
+	background-image: url(../img/ascButton.gif);
+}
+.jkt-descButton {
+	background-image: url(../img/descButton.gif);
+}
+.jkt-sortableButton {
+	background-image: url(../img/sortableButton.gif);
+}
+
+.jkt-pageButton {
+	border: none;
+	background: transparent;
+	background-repeat: no-repeat;
+	width: 22px;
+	height: 22px;
+	cursor: pointer;
+}
+.jkt-firstButton {
+	background-image: url(../img/firstButton.png);
+}
+.jkt-prevButton {
+	background-image: url(../img/prevButton.png);
+}
+.jkt-nextButton {
+	background-image: url(../img/nextButton.png);
+}
+.jkt-lastButton {
+	background-image: url(../img/lastButton.png);
+}
+
+.jkt-headerLeft {
+	display: inline-block;
+	text-align: left;
+	width: 50%;
+}
+
+.jkt-headerRight {
+	display: inline-block;
+	text-align: right;
+	width: 50%;
+}
+
+.table { table-layout: fixed }
+
+.table thead {
+	background-color:#000000;
+	font-weight: normal;
+	color: #FFFFFF;
+	font-size: 12px;
+}
+.table thead input{
+	width: 100%;
+}
+.table th label { font-weight: normal; font-size: 13px; }
+.table tbody tr { font-size: 12px; }
+.table tbody td { overflow: auto;  }
+.table tbody td>.data{ width: 100%; height: 100%; max-height: 200px; overflow: auto; }
+.table tbody tr:nth-child(even) { background: #e6e6e6 }
+.table tbody tr:nth-child(odd) { background: #ffffff }
+.table tbody tr:hover { background: #bcbcbc; }
+
+.pointer { cursor: pointer; }
