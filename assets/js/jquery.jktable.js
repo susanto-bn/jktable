@@ -161,7 +161,7 @@ var jktable = function(setting) {
 				var ret = true;
 				jQuery.each( _jktableVM.fieldsSearchable, function( searchKey, searchVal ){
 					var itm = jQuery.isFunction( item[searchKey] ) ? item[searchKey]() : item[searchKey];
-				
+					itm = (itm == null || jQuery.type(itm) == "undefined" ? "" : itm);
 					if(searchVal()){
 						if(jQuery.type( itm ) == "string" ) {
 							if (itm.toLowerCase().indexOf(searchVal().toLowerCase()) == -1) {
@@ -194,10 +194,12 @@ var jktable = function(setting) {
 							itmB = b[sortKey];
 						};
 						
-						var valA = itmA;
-						var valB = itmB;
+						var valA = (itmA == null || jQuery.type(itmA) == "undefined"? "" : itmA);
+						var valB = (itmB == null || jQuery.type(itmB) == "undefined"? "" : itmB);
 						if(jQuery.type( valA ) == "string" ) {
 							valA = valA.toLowerCase();
+						};
+						if(jQuery.type( valB ) == "string" ) {
 							valB = valB.toLowerCase();
 						};
 						if(valA == valB){
