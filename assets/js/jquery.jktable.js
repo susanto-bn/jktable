@@ -68,6 +68,7 @@ var jktable = function(setting) {
 	var field = {
 		header: "",
 		data: "",
+		usehtml: false,
 		searchable: false // true/false, or search from other data
 	};
 	var _setting = {
@@ -99,11 +100,12 @@ var jktable = function(setting) {
 			left: {
 				elem: "div",
 				cssClass: "jkt-headerLeft",
+				visible: "maxPage() > 1"
 			},
 			right: {
 				elem: "div",
 				cssClass: "jkt-headerRight",
-				visible: "maxPage() > 1"
+				visible: true
 			}
 		},
 		table: {
@@ -197,10 +199,10 @@ var jktable = function(setting) {
 						var valA = (itmA == null || jQuery.type(itmA) == "undefined"? "" : itmA);
 						var valB = (itmB == null || jQuery.type(itmB) == "undefined"? "" : itmB);
 						if(jQuery.type( valA ) == "string" ) {
-							valA = valA.toLowerCase();
+							valA = jQuery.trim(valA.toLowerCase());
 						};
 						if(jQuery.type( valB ) == "string" ) {
-							valB = valB.toLowerCase();
+							valB = jQuery.trim(valB.toLowerCase());
 						};
 						if(valA == valB){
 							// equal so need to compare with another criteria
@@ -514,8 +516,17 @@ var jktable = function(setting) {
 						_colhead.append( jQuery("<input>").attr("data-bind", bind ) )
 					};
 					
+					var usehtml = false;
+					if(jQuery.type( colSetting.usehtml ) === "boolean") {
+						usehtml = colSetting.usehtml;
+					};
+					
 					// _colbody.attr("data-bind", [ "text: " + colSetting.data ] );
-					_colbody.append( jQuery("<div>").addClass("data").attr("data-bind", [ "text: " + colSetting.data ] ) );
+					if( usehtml ) {
+						_colbody.append( jQuery("<div>").addClass("data").attr("data-bind", [ "html: " + colSetting.data ] ) );
+					} else {
+						_colbody.append( jQuery("<div>").addClass("data").attr("data-bind", [ "text: " + colSetting.data ] ) );
+					};
 					_colbody.addClass( colSetting.cssClass );
 				} else if(colSetting.buttons) {
 					jQuery.each( colSetting.buttons, function( buttonN, buttonName ){
@@ -571,63 +582,67 @@ var jktable = function(setting) {
 			_jktable.append( _body );
 		};
 		
-		var _divHeaderLeft = jQuery("<"+_header.left.elem+">").addClass(_header.left.cssClass);
+		var _divHeaderLeft = jQuery("<"+_header.left.elem+">").addClass(_header.left.cssClass).attr( "data-bind", [ "visible: " + _header.right.visible ] );
+		var _divHeaderRight = jQuery("<"+_header.right.elem+">").addClass(_header.right.cssClass).attr( "data-bind", [ "visible: " + _header.right.visible ] );
 		if(_setting.displayTotalData) {
-			_divHeaderLeft.append("Total items : ").append( 
+			_divHeaderRight.append("Total items : ").append( 
 				jQuery("<span>").attr( "data-bind", [ "text: datalength" ] ) 
 			).append(", Filtered items : ").append( 
 				jQuery("<span>").attr( "data-bind", [ "text: displayData().length" ] ) 
 			)
 		};
-		var _divHeaderRight = jQuery("<"+_header.right.elem+">").addClass(_header.right.cssClass).attr( "data-bind", [ "visible: " + _header.right.visible ] );
 		if(_setting.pagination.enable) {
 			var selectPageSizeOptions = jQuery("<select>");
 			selectPageSizeOptions.attr("data-bind", [
 											"options: pageSizeOptions",
 											"value: pageSize"
 										]);
-			if(_divHeaderLeft.html() != "") {
-				_divHeaderLeft.append("<br/>")
-			};
 			_divHeaderLeft.append( "Item per Page " )
 							.append( selectPageSizeOptions );
 			
+			var _divHeaderPagination = jQuery("<div>").attr( "data-bind", [ "visible: maxPage() > 1" ] );
 			var selectPageNoOptions = jQuery("<select>");
 			selectPageNoOptions.attr("data-bind", [
 											"options: pageNoOptions",
 											"value: pageIndex"
 										]);
-			_divHeaderRight.append( "Page " )
+		
+			_divHeaderPagination.append( "Page " )
 							.append( selectPageNoOptions )
 							.append( " of " )
 							.append( jQuery("<label>").attr("data-bind", [
 								"text: maxPage"
 							]));
-			_divHeaderRight.append( "<br/>" );
-			_divHeaderRight.append( jQuery("<button>")
+			//_divHeaderPagination.append( "<br/>" );
+			_divHeaderPagination.append( "&nbsp;&nbsp;&nbsp;&nbsp;" );
+			_divHeaderPagination.append( jQuery("<button>")
 									.addClass( _firstButton.cssClass )
 									.attr( "data-bind", 
 										["click: " + _firstButton.click, "visible: " + _firstButton.visible]
 									)
 								);
-			_divHeaderRight.append( jQuery("<button>")
+			_divHeaderPagination.append( jQuery("<button>")
 									.addClass( _prevButton.cssClass )
 									.attr( "data-bind", 
 										["click: " + _prevButton.click, "visible: " + _prevButton.visible]
 									)
 								);
-			_divHeaderRight.append( jQuery("<button>")
+			_divHeaderPagination.append( jQuery("<button>")
 									.addClass( _nextButton.cssClass )
 									.attr( "data-bind", 
 										["click: " + _nextButton.click, "visible: " + _nextButton.visible]
 									)
 								);
-			_divHeaderRight.append( jQuery("<button>")
+			_divHeaderPagination.append( jQuery("<button>")
 									.addClass( _lastButton.cssClass )
 									.attr( "data-bind", 
 										["click: " + _lastButton.click, "visible: " + _lastButton.visible]
 									)
-								)
+								);
+			if(_divHeaderLeft.html() != "") {
+				_divHeaderLeft.append("<br/>")
+			};
+			_divHeaderLeft.append( _divHeaderPagination )
 		};
 		jQuery(this).append( jQuery("<"+_header.elem+">").addClass( _header.cssClass ).append(_divHeaderLeft).append(_divHeaderRight) );
 		
